@@ -347,4 +347,4 @@ class G1CfgPPO( LeggedRobotCfgPPO ):
         experiment_name = 'g1_wall'
         algorithm_class_name = 'PPO'
         init_at_random_ep_len = True
-        max_iterations = 7500 # number of policy updates
+        max_iterations = 3000 # number of policy updates

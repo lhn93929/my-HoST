@@ -1,0 +1,71 @@
+#
+policy_path: "{LEGGED_GYM_ROOT_DIR}/legged_gym/deploy/pre_train/g1/policy_1.pt"
+xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/g1/g1_23dof.xml"
+
+# Total simulation time
+simulation_duration: 60.0
+# Simulation time step
+simulation_dt: 0.001
+# Controller update frequency (meets the requirement of simulation_dt * controll_decimation=0.02; 50Hz)
+control_decimation: 20
+
+# 23 DOF joint order matching URDF (g1_23dof.xml):
+# left leg (6): hip_pitch, hip_roll, hip_yaw, knee, ankle_pitch, ankle_roll
+# right leg (6): hip_pitch, hip_roll, hip_yaw, knee, ankle_pitch, ankle_roll
+# waist (1): waist_yaw
+# left arm (5): shoulder_pitch, shoulder_roll, shoulder_yaw, elbow, wrist_roll
+# right arm (5): shoulder_pitch, shoulder_roll, shoulder_yaw, elbow, wrist_roll
+# kps: [150, 100, 100, 200, 40, 40,  # left leg
+#        150, 100, 100, 200, 40, 40,  # right leg
+#        100,                           # waist_yaw
+#        100, 100, 100, 100, 100,    # left arm
+#        100, 100, 100, 100, 100]    # right
+
+# kds: [4, 2, 2, 6, 2, 2,           # left leg
+#        4, 2, 2, 6, 2, 2,           # right leg
+#        4,                            # waist_yaw
+#        4, 4, 4, 4, 4,              # left arm
+#        4, 4, 4, 4, 4]              # right arm
+kps: [250, 200, 200, 200, 40, 40,  # left leg
+       250, 200, 200, 200, 40, 40,  # right leg
+       200,                           # waist_yaw
+       300, 300, 200, 200, 200,    # left arm
+       300, 300, 200, 200, 200]    # right
+
+kds: [6, 4, 4, 6, 4, 4,           # left leg
+       6, 4, 4, 6, 4, 4,           # right leg
+       8,                            # waist_yaw
+       8, 8, 6, 6, 6,              # left arm
+       8, 8, 6, 6, 6]              # right arm
+
+# Default angles matching g1_config_ground.py default_joint_angles
+# URDF order: hip_pitch, hip_roll, hip_yaw, knee, ankle_pitch, ankle_roll
+default_angles: [-0.1,  0.0,  0.0,  0.3,  -0.2, 0.0,  # left leg
+                 -0.1,  0.0,  0.0,  0.3,  -0.2, 0.0,  # right leg
+                 0.0,                                                # waist_yaw
+                 0.0,  0.3,   0.0,  0.8,  0.0,          # left arm (shoulder_pitch, shoulder_roll, shoulder_yaw, elbow, wrist_roll)
+                 0.0,  -0.3,  0.0,  0.8,  0.0]         # right arm
+
+# Initial base quaternion for g1_config_ground.py prone pose
+# Training config: rot = [0.0, -1.0, 0, 1.0] # x,y,z,w [quat] - 90 deg rotation about Y (prone)
+# Convert to MuJoCo [w, x, y, z] order: [1.0, 0.0, -1.0, 0.0]
+# init_base_quat: [1.0, 0.0, -1.0, 0.0]  # w,x,y,z for prone (-90 deg about Y from Isaac's [0,-1,0,1])
+init_base_quat: [0.70710678, 0.0, -0.70710678, 0.0]   # w, x, y, z
+init_base_pos: [0.0, 0.0, 0.3]
+
+# Torque limits from URDF effort limits
+torque_limits: [88, 88, 88, 139, 50, 50,   # left leg
+                88, 88, 88, 139, 50, 50,   # right leg
+                88,                          # waist_yaw
+                25, 25, 25, 25, 25,        # left arm
+                25, 25, 25, 25, 25]        # right arm
+
+ang_vel_scale: 0.25
+dof_pos_scale: 1.0
+dof_vel_scale: 0.05
+action_scale: 0.25
+
+num_actions: 23
+num_one_step_obs: 76
+num_actor_history: 6
+num_obs: 456  # 76 * 6

@@ -1,0 +1,79 @@
+#
+# 23DOF策略部署到29DOF G1机器人的配置
+# 策略: 地面起立任务 (g1_ground)
+#
+control_dt: 0.02
+
+msg_type: "hg"     # "hg" or "go"
+imu_type: "pelvis"     # "torso" or "pelvis"
+
+lowcmd_topic: "rt/lowcmd"
+lowstate_topic: "rt/lowstate"
+
+policy_path: "/home/lhn/HoST/legged_gym/legged_gym/deploy/pre_train/g1/policy_1.pt"
+
+# ============= 策略相关映射 (23DOF策略 -> 29DOF电机) =============
+# 策略输出顺序:
+#   左腿 (0-5): pitch, roll, yaw, knee, ankle_pitch, ankle_roll
+#   右腿 (6-11): pitch, roll, yaw, knee, ankle_pitch, ankle_roll
+#   腰部 (12): yaw
+#   左臂 (13-17): shoulder_pitch, shoulder_roll, shoulder_yaw, elbow, wrist_roll
+#   右臂 (18-22): shoulder_pitch, shoulder_roll, shoulder_yaw, elbow, wrist_roll
+#
+# 策略索引 -> 真实电机索引
+policy_joint2motor_idx: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 22, 23, 24, 25, 26]
+
+# 策略使用的关节默认角度 (按策略顺序)
+policy_default_angles: [-0.1, 0.0, 0.0, 0.3, -0.2, 0.0, -0.1, 0.0, 0.0, 0.3, -0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.8, 0.0, 0.0, 0.0, 0.0, 0.8, 0.0]
+
+# 策略使用的关节PD增益 (按策略顺序)
+policy_kps: [200, 200, 250, 200, 40, 40, 200, 200, 250, 200, 40, 40, 200, 300, 300, 200, 200, 200, 300, 300, 200, 200, 200]
+policy_kds: [4, 4, 6, 6, 4, 4, 4, 4, 6, 6, 4, 4, 8, 8, 8, 6, 6, 6, 8, 8, 6, 6, 6]
+
+# ============= 腿部分 (0-11电机，用于初始定位) =============
+leg_joint2motor_idx: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+# 腿部默认角度 (按0-11电机顺序)
+default_angles: [-0.1, 0.0, 0.0, 0.3, -0.2, 0.0, -0.1, 0.0, 0.0, 0.3, -0.2, 0.0]
+
+# 腿部PD增益 (按0-11电机顺序)
+kps: [250, 200, 200, 200, 40, 40, 250, 200, 200, 200, 40, 40]
+kds: [6, 4, 4, 6, 4, 4, 6, 4, 4, 6, 4, 4]
+
+# ============= 腰臂部分 (12-28电机，全部17个，包含策略使用的和需要锁定的) =============
+# 电机: 12(WAIST_YAW), 13(WAIST_ROLL), 14(WAIST_PITCH),
+#       15-21(左臂), 22-28(右臂)
+arm_waist_joint2motor_idx: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+
+# 腰臂目标位置 (全部17个，包含锁定位置)
+# 锁定的关节: WAIST_ROLL(13), WAIST_PITCH(14), L_WRIST_PITCH(20), L_WRIST_YAW(21), R_WRIST_PITCH(27), R_WRIST_YAW(28)
+arm_waist_target: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.8, 0.0, 0.0, 0.0]
+
+# 腰臂PD增益
+arm_waist_kps: [200, 200, 200, 300, 300, 200, 200, 200, 200, 200, 300, 300, 200, 200, 200, 200, 200]
+arm_waist_kds: [8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 8, 8, 6, 6, 6, 6, 6]
+
+# ============= 观测和行动配置 =============
+ang_vel_scale: 0.25
+dof_pos_scale: 1.0
+dof_vel_scale: 0.05
+action_scale: 0.25
+action_rescale_noise: 0.05
+
+# 命令缩放 (mujoco_history模式不需要，但保留兼容)
+cmd_scale: [2.0, 2.0, 1.0]
+max_cmd: [0.8, 0.5, 1.57]
+
+# 23DOF策略
+num_actions: 23
+
+# History observation配置 (mujoco_history模式)
+num_one_step_obs: 76
+num_actor_history: 6
+num_obs: 456
+
+# 观测模式: mujoco_history (与deploy_mujoco对齐)
+observation_mode: "mujoco_history"
+
+# 行动目标模式: current_increment (目标 = 当前位置 + action * scale)
+action_target_mode: "current_increment"

@@ -1,7 +1,10 @@
 import sys
-from legged_gym import LEGGED_GYM_ROOT_DIR
 import os
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, project_root)
+from legged_gym import LEGGED_GYM_ROOT_DIR
 
+import copy
 import isaacgym
 from legged_gym.envs import *
 from legged_gym.utils import  get_args, export_policy_as_jit, task_registry, Logger
@@ -14,6 +17,12 @@ import numpy as np
 from collections import defaultdict
 from multiprocessing import Process, Value
 
+def export_policy_as_jit(actor_critic, path):
+    os.makedirs(path, exist_ok=True)
+    path = os.path.join(path, "policy_1.pt")
+    model = copy.deepcopy(actor_critic.actor).to("cpu")
+    traced_script_module = torch.jit.script(model)
+    traced_script_module.save(path)
 
 def play(args):
     env_cfg, train_cfg = task_registry.get_cfgs(name=args.task)
@@ -34,6 +43,12 @@ def play(args):
     ppo_runner, train_cfg = task_registry.make_alg_runner(env=env, env_cfg=env_cfg, name=args.task, args=args, train_cfg=train_cfg)
     policy = ppo_runner.get_inference_policy(device=env.device)
     
+    # export policy as a jit module (used to run it from C++)
+    if EXPORT_POLICY:
+        path = os.path.join(LEGGED_GYM_ROOT_DIR, 'logs', train_cfg.runner.experiment_name, 'exported', 'policies')
+        export_policy_as_jit(ppo_runner.alg.actor_critic, path)
+        print('Exported policy as jit script to: ', path)
+
     logger = Logger(env.dt)
     for i in range(10*int(env.max_episode_length)):
 
@@ -43,5 +58,6 @@ def play(args):
 
 
 if __name__ == '__main__':
+    EXPORT_POLICY = True
     args = get_args()
     play(args)

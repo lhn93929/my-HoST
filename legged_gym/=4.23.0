@@ -1,0 +1,33 @@
+Collecting tensorboard==2.14.0
+  Downloading tensorboard-2.14.0-py3-none-any.whl.metadata (1.8 kB)
+Collecting protobuf
+  Downloading protobuf-5.29.6-cp38-abi3-manylinux2014_x86_64.whl.metadata (592 bytes)
+Requirement already satisfied: absl-py>=0.4 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (2.3.1)
+Requirement already satisfied: grpcio>=1.48.2 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (1.70.0)
+Requirement already satisfied: google-auth<3,>=1.6.3 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (2.43.0)
+Requirement already satisfied: google-auth-oauthlib<1.1,>=0.5 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (1.0.0)
+Requirement already satisfied: markdown>=2.6.8 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (3.7)
+Requirement already satisfied: numpy>=1.12.0 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (1.23.5)
+Requirement already satisfied: requests<3,>=2.21.0 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (2.32.4)
+Requirement already satisfied: setuptools>=41.0.0 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (75.1.0)
+Requirement already satisfied: tensorboard-data-server<0.8.0,>=0.7.0 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (0.7.2)
+Requirement already satisfied: werkzeug>=1.0.1 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (3.0.6)
+Requirement already satisfied: wheel>=0.26 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from tensorboard==2.14.0) (0.44.0)
+Requirement already satisfied: cachetools<7.0,>=2.0.0 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from google-auth<3,>=1.6.3->tensorboard==2.14.0) (5.5.2)
+Requirement already satisfied: pyasn1-modules>=0.2.1 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from google-auth<3,>=1.6.3->tensorboard==2.14.0) (0.4.2)
+Requirement already satisfied: rsa<5,>=3.1.4 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from google-auth<3,>=1.6.3->tensorboard==2.14.0) (4.9.1)
+Requirement already satisfied: requests-oauthlib>=0.7.0 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from google-auth-oauthlib<1.1,>=0.5->tensorboard==2.14.0) (2.0.0)
+Requirement already satisfied: importlib-metadata>=4.4 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from markdown>=2.6.8->tensorboard==2.14.0) (8.5.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from requests<3,>=2.21.0->tensorboard==2.14.0) (3.4.4)
+Requirement already satisfied: idna<4,>=2.5 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from requests<3,>=2.21.0->tensorboard==2.14.0) (3.11)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from requests<3,>=2.21.0->tensorboard==2.14.0) (2.2.3)
+Requirement already satisfied: certifi>=2017.4.17 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from requests<3,>=2.21.0->tensorboard==2.14.0) (2025.10.5)
+Requirement already satisfied: MarkupSafe>=2.1.1 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from werkzeug>=1.0.1->tensorboard==2.14.0) (2.1.5)
+Requirement already satisfied: zipp>=3.20 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from importlib-metadata>=4.4->markdown>=2.6.8->tensorboard==2.14.0) (3.20.2)
+Requirement already satisfied: pyasn1<0.7.0,>=0.6.1 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from pyasn1-modules>=0.2.1->google-auth<3,>=1.6.3->tensorboard==2.14.0) (0.6.1)
+Requirement already satisfied: oauthlib>=3.0.0 in /home/lhn/anaconda3/envs/host/lib/python3.8/site-packages (from requests-oauthlib>=0.7.0->google-auth-oauthlib<1.1,>=0.5->tensorboard==2.14.0) (3.3.1)
+Downloading tensorboard-2.14.0-py3-none-any.whl (5.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.5/5.5 MB 4.0 MB/s eta 0:00:00
+Downloading protobuf-5.29.6-cp38-abi3-manylinux2014_x86_64.whl (320 kB)
+Installing collected packages: protobuf, tensorboard
+Successfully installed protobuf-5.29.6 tensorboard-2.14.0

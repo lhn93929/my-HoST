@@ -1,0 +1,18 @@
+visualization/output/*.pdf
+.vscode/
+CLAUDE.md
+
+# Large media files
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
+*.pdf
+*.png
+*.txt
+*.zip
+
+# logs
+logs
